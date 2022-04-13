@@ -1,13 +1,14 @@
 package com.thousand.springbootmall.controller;
 
+import com.thousand.springbootmall.dto.ProductRequest;
 import com.thousand.springbootmall.model.Product;
 import com.thousand.springbootmall.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 //創建Api,讓前端透過springboot程式取得商品資訊
 @RestController //Controller層的Bean
@@ -16,6 +17,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    //查詢商品功能
     @GetMapping("products/{productId}")       //表示productId是從路徑取得的
     public ResponseEntity<Product> getProduct(@PathVariable Integer productId){
 
@@ -27,5 +29,15 @@ public class ProductController {
         else {
             return  ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    //新增商品功能
+    @PostMapping("products")                     //表示要接住前端傳來的json參數 //@Valid使@NotNull生效
+    public ResponseEntity<Product> createProduct (@RequestBody @Valid ProductRequest productRequest){
+        Integer productId = productService.createProduct(productRequest);
+
+        Product product =productService.getProductById(productId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 }
