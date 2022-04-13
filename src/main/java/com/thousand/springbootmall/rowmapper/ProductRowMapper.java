@@ -1,5 +1,6 @@
 package com.thousand.springbootmall.rowmapper;
 
+import com.thousand.springbootmall.constant.ProductCategory;
 import com.thousand.springbootmall.model.Product;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -16,7 +17,11 @@ import java.sql.SQLException;
 
     product.setProductId(resultSet.getInt("product_id"));
     product.setProductName(resultSet.getString("product_name"));
-    product.setCategory(resultSet.getString("category"));
+    //enum的valueOf方法(查詢enum內有無符合值)(並可利用轉換)
+    String CategoryStr=resultSet.getString("category");
+    ProductCategory category = ProductCategory.valueOf(CategoryStr);
+    product.setCategory(category);
+    //等於product.setCategory(ProductCategory.valueOf(resultSet.getString("category")));
     product.setImageUrl(resultSet.getString("image_url"));
     product.setPrice(resultSet.getInt("price"));
     product.setStock(resultSet.getInt("stock"));

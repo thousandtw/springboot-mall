@@ -1,5 +1,7 @@
 package com.thousand.springbootmall.model;
 
+import com.thousand.springbootmall.constant.ProductCategory;
+
 import java.util.Date;
 
 //實作和資料庫中 product table 所對應的變數
@@ -7,7 +9,7 @@ public class Product {
 
    private Integer productId;
    private String productName;
-   private String category;
+   private ProductCategory category;
    private String imageUrl;
    private Integer price;
    private Integer stock;
@@ -31,11 +33,11 @@ public class Product {
         this.productName = productName;
     }
 
-    public String getCategory() {
+    public ProductCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(ProductCategory category) {
         this.category = category;
     }
 
