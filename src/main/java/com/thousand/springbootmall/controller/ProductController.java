@@ -22,6 +22,7 @@ public class ProductController {
     public ResponseEntity<Product> getProduct(@PathVariable Integer productId){
 
         Product product =productService.getProductById(productId);
+
         //判斷後給予前端回應
         if(product!=null){
             return ResponseEntity.status(HttpStatus.OK).body(product);
@@ -43,7 +44,7 @@ public class ProductController {
 
     //修改商品功能
     @PutMapping("products/{productId}")
-    public  ResponseEntity<Product> updateProduct(@PathVariable Integer productId,@RequestBody @Valid ProductRequest productRequest){
+    public ResponseEntity<Product> updateProduct(@PathVariable Integer productId,@RequestBody @Valid ProductRequest productRequest){
 
         //檢查 Product 是否存在
             Product product =productService.getProductById(productId);
@@ -55,5 +56,12 @@ public class ProductController {
         productService.updateProduct(productId,productRequest);
         Product updateProduct=productService.getProductById(productId);
         return  ResponseEntity.status(HttpStatus.OK).body(updateProduct);
+    }
+
+    //刪除商品功能
+    @DeleteMapping("products/{productId}")
+    public ResponseEntity<?> deleteProductById(@PathVariable Integer productId){
+        productService.deleteProductById(productId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
