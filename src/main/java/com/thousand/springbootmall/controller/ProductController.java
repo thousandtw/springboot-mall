@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 //創建Api,讓前端透過springboot程式取得商品資訊
 @RestController //Controller層的Bean
@@ -16,6 +17,13 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    //查詢商品列表功能
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getProducts(){
+        List <Product> ProductList = productService.getProducts();
+        return ResponseEntity.status(HttpStatus.OK).body(ProductList);
+    }
 
     //查詢商品功能
     @GetMapping("products/{productId}")       //表示productId是從路徑取得的

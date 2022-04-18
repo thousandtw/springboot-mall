@@ -24,6 +24,18 @@ public class ProductDaoImpl implements ProductDao {
     @Autowired //注入NamedParameterJdbcTemplate這個bean
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+
+    @Override
+    public List<Product> getProducts() {
+        String sql="SELECT product_id,product_name,category,image_url,price,stock,description,created_date,last_modified_date FROM product";
+
+        Map<String,Object> map=new HashMap<>();
+                                                                           //將資料庫數據轉換成java object
+        List<Product>ProductList= namedParameterJdbcTemplate.query(sql,map,new ProductRowMapper());
+
+        return ProductList;
+    }
+
     @Override
     public Product getProductById(Integer productId) {
 
