@@ -1,5 +1,6 @@
 package com.thousand.springbootmall.dao;
 
+import com.thousand.springbootmall.constant.ProductCategory;
 import com.thousand.springbootmall.dto.ProductRequest;
 import com.thousand.springbootmall.model.Product;
 
@@ -8,7 +9,7 @@ import java.util.List;
 //使用NamedParameterJdbcTemplate從資料庫中取的Product的資料
 public interface ProductDao {
 
-    List <Product> getProducts();
+    List <Product> getProducts(ProductCategory category,String search);
 
     Product getProductById (Integer productId);
 
