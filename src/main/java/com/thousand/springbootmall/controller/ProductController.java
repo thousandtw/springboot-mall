@@ -1,6 +1,7 @@
 package com.thousand.springbootmall.controller;
 
 import com.thousand.springbootmall.constant.ProductCategory;
+import com.thousand.springbootmall.dto.ProductQueryParams;
 import com.thousand.springbootmall.dto.ProductRequest;
 import com.thousand.springbootmall.model.Product;
 import com.thousand.springbootmall.service.ProductService;
@@ -25,9 +26,14 @@ public class ProductController {
             //表示 category 為 Url中取得的參數 //category參數表示前端透過參數可查看商品分類
              @RequestParam(required = false) ProductCategory category
             ,@RequestParam(required = false) String search
-                         //required為參數是否為必選
+                         //required為參數是否為必選 //search參數表示前端透過參數使用關鍵字
             ){
-        List <Product> ProductList = productService.getProducts(category,search);
+        //將 getProducts方法參數值統一歸納於ProductQueryParams-class(方便閱讀管理)
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        productQueryParams.setCategory(category);
+        productQueryParams.setSearch(search);
+
+        List <Product> ProductList = productService.getProducts(productQueryParams);
         return ResponseEntity.status(HttpStatus.OK).body(ProductList);
     }
 

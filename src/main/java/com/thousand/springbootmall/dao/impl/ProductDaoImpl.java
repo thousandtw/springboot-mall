@@ -1,7 +1,7 @@
 package com.thousand.springbootmall.dao.impl;
 
-import com.thousand.springbootmall.constant.ProductCategory;
 import com.thousand.springbootmall.dao.ProductDao;
+import com.thousand.springbootmall.dto.ProductQueryParams;
 import com.thousand.springbootmall.dto.ProductRequest;
 import com.thousand.springbootmall.model.Product;
 import com.thousand.springbootmall.rowmapper.ProductRowMapper;
@@ -27,7 +27,7 @@ public class ProductDaoImpl implements ProductDao {
 
 
     @Override
-    public List<Product> getProducts(ProductCategory category,String search) {
+    public List<Product> getProducts(ProductQueryParams productQueryParams) {
         String sql="SELECT product_id,product_name,category,image_url,price,stock,description,created_date,last_modified_date " +
                 "FROM product WHERE 1=1";
                                    //使靈活拼接sql語法 (1=1不會影響查詢條件)
@@ -35,16 +35,16 @@ public class ProductDaoImpl implements ProductDao {
         Map<String,Object> map=new HashMap<>();
 
         //Dao層在實作 SQL時,切記加上驗證判斷
-        if(category!=null){
+        if(productQueryParams.getCategory()!=null){
                     //AND前'空白'非常重要 (使前方 SQL不相互黏上干擾) //類別搜尋
             sql=sql+" AND category= :category";
-            map.put("category",category.name());
+            map.put("category",productQueryParams.getCategory().name());
                                       //name方法將enum類型轉換成string
         }
-        if(search!=null) {
+        if(productQueryParams.getSearch()!=null) {
                                //關鍵字搜尋-LIKE模糊查詢
             sql = sql + " AND product_name LIKE :search";
-            map.put("search", "%" + search + "%");
+            map.put("search", "%" + productQueryParams.getSearch() + "%");
                             // LIKE同常搭配"%"~"%"(%為任意字符,放前後為商品名稱中包含)(%寫在map的值內)
         }
                                                                            //將資料庫數據轉換成java object
