@@ -47,6 +47,9 @@ public class ProductDaoImpl implements ProductDao {
             map.put("search", "%" + productQueryParams.getSearch() + "%");
                             // LIKE同常搭配"%"~"%"(%為任意字符,放前後為商品名稱中包含)(%寫在map的值內)
         }
+
+        //ORDER BY不能使用 :SOL變數,只能使用字串拼接 //ORDER BY前後皆須含空格,變數連接需空白字串
+        sql=sql+" ORDER BY "+productQueryParams.getOrderBy() +" "+ productQueryParams.getSort();
                                                                            //將資料庫數據轉換成java object
         List<Product>ProductList= namedParameterJdbcTemplate.query(sql,map,new ProductRowMapper());
 
