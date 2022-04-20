@@ -5,6 +5,7 @@ import com.thousand.springbootmall.dto.ProductQueryParams;
 import com.thousand.springbootmall.dto.ProductRequest;
 import com.thousand.springbootmall.model.Product;
 import com.thousand.springbootmall.service.ProductService;
+import com.thousand.springbootmall.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class ProductController {
 
     //查詢商品列表功能
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(
+    public ResponseEntity<Page<Product>> getProducts(
             //表示 category 為 Url中取得的參數 //category參數表示前端透過參數可查看商品分類
                          //required為參數是否為必選 //search參數表示前端透過參數使用關鍵字
             //查詢條件
@@ -53,8 +54,21 @@ public class ProductController {
         productQueryParams.setLimit(limit);
         productQueryParams.setOffset(offset);
 
+        //取得 Product list
         List <Product> ProductList = productService.getProducts(productQueryParams);
-        return ResponseEntity.status(HttpStatus.OK).body(ProductList);
+
+        //取得 Product 總數
+        Integer total = productService.countProduct(productQueryParams);
+
+        //設定分頁資訊
+        //將數據透過Page-class改寫為以 json object的格式 回傳給前端
+        Page<Product>page=new Page<>();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(total);
+        page.setResults(ProductList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
     //查詢商品功能

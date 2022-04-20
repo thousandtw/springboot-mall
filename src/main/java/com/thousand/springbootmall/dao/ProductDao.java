@@ -9,6 +9,8 @@ import java.util.List;
 //使用NamedParameterJdbcTemplate從資料庫中取的Product的資料
 public interface ProductDao {
 
+    Integer countProduct(ProductQueryParams productQueryParams);
+
     List <Product> getProducts(ProductQueryParams productQueryParams);
 
     Product getProductById (Integer productId);
