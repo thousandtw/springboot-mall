@@ -34,6 +34,7 @@ public class ProductDaoImpl implements ProductDao {
 
         Map<String,Object> map=new HashMap<>();
 
+        //查詢條件
         //Dao層在實作 SQL時,切記加上驗證判斷
         if(productQueryParams.getCategory()!=null){
                     //AND前'空白'非常重要 (使前方 SQL不相互黏上干擾) //類別搜尋
@@ -48,8 +49,15 @@ public class ProductDaoImpl implements ProductDao {
                             // LIKE同常搭配"%"~"%"(%為任意字符,放前後為商品名稱中包含)(%寫在map的值內)
         }
 
+        //排序
         //ORDER BY不能使用 :SOL變數,只能使用字串拼接 //ORDER BY前後皆須含空格,變數連接需空白字串
         sql=sql+" ORDER BY "+productQueryParams.getOrderBy() +" "+ productQueryParams.getSort();
+
+
+        //分頁
+        sql=sql+" LIMIT :limit OFFSET :offset";
+        map.put("limit",productQueryParams.getLimit());
+        map.put("offset",productQueryParams.getOffset());
                                                                            //將資料庫數據轉換成java object
         List<Product>ProductList= namedParameterJdbcTemplate.query(sql,map,new ProductRowMapper());
 

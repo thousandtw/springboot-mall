@@ -8,13 +8,18 @@ import com.thousand.springbootmall.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 
-//創建Api,讓前端透過springboot程式取得商品資訊
+
+//創建Api,讓前端透過 springboot程式取得商品資訊
 @RestController //Controller層的Bean
+@Validated //使Max.Min註解生效
 public class ProductController {
 
     @Autowired
@@ -25,14 +30,19 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProducts(
             //表示 category 為 Url中取得的參數 //category參數表示前端透過參數可查看商品分類
                          //required為參數是否為必選 //search參數表示前端透過參數使用關鍵字
-                                    //查詢條件
+            //查詢條件
              @RequestParam(required = false) ProductCategory category
             ,@RequestParam(required = false) String search
 
-                                    //排序
+            //排序
             ,@RequestParam(defaultValue = "created_date") String orderBy
             ,@RequestParam(defaultValue = "desc") String sort
                          //defaultValue為預設值,如果前端未給此參數,以預設為主
+
+            //分頁                             //限制範圍,利於資料庫  //此次取得商品的數量(最多)
+            ,@RequestParam(defaultValue = "5") @Max(1000) @Min(0) Integer limit
+            ,@RequestParam(defaultValue = "0") @Min(0) Integer offset
+                                                       //此次從頭跳過的商品數量
             ){
         //將 getProducts方法參數值統一歸納於ProductQueryParams-class(方便閱讀管理)
         ProductQueryParams productQueryParams = new ProductQueryParams();
@@ -40,6 +50,8 @@ public class ProductController {
         productQueryParams.setSearch(search);
         productQueryParams.setOrderBy(orderBy);
         productQueryParams.setSort(sort);
+        productQueryParams.setLimit(limit);
+        productQueryParams.setOffset(offset);
 
         List <Product> ProductList = productService.getProducts(productQueryParams);
         return ResponseEntity.status(HttpStatus.OK).body(ProductList);
