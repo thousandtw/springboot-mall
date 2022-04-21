@@ -4,7 +4,7 @@ import java.util.List;
 
 //util-package (通用類別)
 //page-class為改寫成 json object的格式
-public class  Page <T> {
+public class Page<T> {
 
     private Integer limit;
     private Integer offset;

@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void updateProduct(Integer productId, ProductRequest productRequest) {
-         productDao.updateProduct(productId,productRequest); //void沒有回傳值,即不用return值
+        productDao.updateProduct(productId, productRequest); //void沒有回傳值,即不用return值
     }
 
     @Override

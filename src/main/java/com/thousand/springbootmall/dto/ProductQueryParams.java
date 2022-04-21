@@ -2,7 +2,7 @@ package com.thousand.springbootmall.dto;
 
 import com.thousand.springbootmall.constant.ProductCategory;
 
-//存放getProducts方法參數值
+//存放getProducts方法的參數值
 public class ProductQueryParams {
 
     private ProductCategory category;

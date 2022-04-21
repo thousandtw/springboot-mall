@@ -7,15 +7,15 @@ import java.util.Date;
 //實作和資料庫中 product table 所對應的變數
 public class Product {
 
-   private Integer productId;
-   private String productName;
-   private ProductCategory category;
-   private String imageUrl;
-   private Integer price;
-   private Integer stock;
-   private String description;
-   private Date createdDate;
-   private Date lastModifiedDate;
+    private Integer productId;
+    private String productName;
+    private ProductCategory category;
+    private String imageUrl;
+    private Integer price;
+    private Integer stock;
+    private String description;
+    private Date createdDate;
+    private Date lastModifiedDate;
 
     public Integer getProductId() {
         return productId;
