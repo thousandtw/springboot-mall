@@ -18,21 +18,31 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+//啟用註解
 @AutoConfigureMockMvc
 @SpringBootTest
 public class ProductControllerTest {
 
+    //Controller-Test (模擬前端的行為,測試 API是運行正常)
+    //不能直接注入bean,以模擬真實 API call來測試
     @Autowired
-    private MockMvc mockMvc;
+    private MockMvc mockMvc;//注入mockMvc //模擬真實 API call
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
     //測試-取得單個商品-成功
     @Test
     public void getProduct() throws Exception {
+
+        // 1.RequestBuilder為 http request的內容 (等同設定ApiTester的方法及參數)
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/products/{productId}", 1);
 
+        // perform方法會噴出Exception(萬用鍵 => throws Exception)
+        // 2.perform為發起 request (等同按下ApiTester的 Send按鈕)
+        // 3.andExpect方法為驗證返回結果
+        // jsonPath-驗證json返回值
+        // andDo(print()) [運行後顯示API的執行結果,以利寫jsonPath驗證]
         mockMvc.perform(requestBuilder)
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -69,7 +79,9 @@ public class ProductControllerTest {
         productRequest.setStock(2);
 
         String json = objectMapper.writeValueAsString(productRequest);
-
+        // 使用.post方法時,加入contentType(MediaType.APPLICATION_JSON)才能傳遞JSON格式的參數
+        // ( 等同ApiTester-post-HEADERS內已勾選內容 )
+        // 使用.content()方法時,放入存放參數的json變數;
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/products")
                 .contentType(MediaType.APPLICATION_JSON)
