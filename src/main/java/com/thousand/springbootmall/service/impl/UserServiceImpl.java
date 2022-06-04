@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserServiceImpl implements UserService {
 
-   @Autowired
-   private UserDao userDao;
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public User getUserById(Integer userId) {
@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer register(UserRegisterRequest userRegisterRequest) {
+
         return userDao.createUser(userRegisterRequest);
     }
 }

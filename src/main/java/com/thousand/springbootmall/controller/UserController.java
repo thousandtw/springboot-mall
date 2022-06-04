@@ -18,11 +18,13 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/users/register")
-    public ResponseEntity<User> register(@RequestBody @Valid UserRegisterRequest userRegisterRequest){
+    public ResponseEntity<User> register(@RequestBody @Valid UserRegisterRequest userRegisterRequest) {
 
-       Integer userId = userService.register(userRegisterRequest);
-       User user = userService.getUserById(userId);
+        //新增帳號
+        Integer userId = userService.register(userRegisterRequest);
+        //取得帳號
+        User user = userService.getUserById(userId);
 
-       return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 }

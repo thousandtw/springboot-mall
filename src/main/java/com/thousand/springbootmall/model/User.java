@@ -4,11 +4,11 @@ import java.util.Date;
 
 public class User {
 
-private Integer userid;
-private String email;
-private String password;
-private Date createdDate;
-private Date lastModifiedDate;
+    private Integer userid;
+    private String email;
+    private String password;
+    private Date createdDate;
+    private Date lastModifiedDate;
 
     public Integer getUserid() {
         return userid;

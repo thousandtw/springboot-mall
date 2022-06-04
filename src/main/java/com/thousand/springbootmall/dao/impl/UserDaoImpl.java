@@ -19,50 +19,50 @@ import java.util.Map;
 @Component
 public class UserDaoImpl implements UserDao {
 
-@Autowired
-private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    //取得帳號
     @Override
     public User getUserById(Integer userId) {
 
-      String sql="SELECT user_id, email, password,  created_date, last_modified_date " +
-                      "FROM mall.user WHERE user_id=:userId";
+        String sql = "SELECT user_id, email, password,  created_date, last_modified_date " +
+                "FROM mall.user WHERE user_id=:userId";
 
-      Map<String,Object>map=new HashMap<>();
-      map.put("userId",userId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
 
-       List <User> userList= namedParameterJdbcTemplate.query(sql,map,new UserRowMapper());
+        List<User> userList = namedParameterJdbcTemplate.query(sql, map, new UserRowMapper());
 
-       if (userList.size()>0){
-           return userList.get(0);
-       }
-       else {
-           return null;
-       }
+        if (userList.size() > 0) {
+            return userList.get(0);
+        } else {
+            return null;
+        }
 
     }
 
+    //新增帳號
     @Override
     public Integer createUser(UserRegisterRequest userRegisterRequest) {
 
-        //27
-        String sql="INSERT INTO mall.user (email, password, created_date, last_modified_date) " +
+        String sql = "INSERT INTO mall.user (email, password, created_date, last_modified_date) " +
                 "VALUE (:email, :password, :createdDate, :lastModifiedDate) ";
 
 
-        Map<String,Object> map =new HashMap<>();
-        map.put("email",userRegisterRequest.getEmail());
-        map.put("password",userRegisterRequest.getPassword());
+        Map<String, Object> map = new HashMap<>();
+        map.put("email", userRegisterRequest.getEmail());
+        map.put("password", userRegisterRequest.getPassword());
 
-        Date now =new Date();
-        map.put("createdDate",now);
-        map.put("lastModifiedDate",now);
+        Date now = new Date();
+        map.put("createdDate", now);
+        map.put("lastModifiedDate", now);
 
-        KeyHolder keyHolder= new GeneratedKeyHolder();
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        namedParameterJdbcTemplate.update(sql,new MapSqlParameterSource(map),keyHolder);
+        namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource(map), keyHolder);
 
-        int userId =keyHolder.getKey().intValue();
+        int userId = keyHolder.getKey().intValue();
         return userId;
     }
 

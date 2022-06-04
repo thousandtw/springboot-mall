@@ -9,7 +9,7 @@ import java.sql.SQLException;
 //資料庫結果轉換成obj
 public class UserRowMapper implements RowMapper<User> {
 
-    public User mapRow(ResultSet resultSet,int i) throws SQLException{
+    public User mapRow(ResultSet resultSet, int i) throws SQLException {
         User user = new User();
         user.setUserid(resultSet.getInt("user_id"));
         user.setEmail(resultSet.getString("email"));
