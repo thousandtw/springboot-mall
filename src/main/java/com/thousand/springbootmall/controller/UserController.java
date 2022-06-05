@@ -1,5 +1,6 @@
 package com.thousand.springbootmall.controller;
 
+import com.thousand.springbootmall.dto.UserLoginRequest;
 import com.thousand.springbootmall.dto.UserRegisterRequest;
 import com.thousand.springbootmall.model.User;
 import com.thousand.springbootmall.service.UserService;
@@ -17,6 +18,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    //新增
     @PostMapping("/users/register")
     public ResponseEntity<User> register(@RequestBody @Valid UserRegisterRequest userRegisterRequest) {
 
@@ -26,5 +28,14 @@ public class UserController {
         User user = userService.getUserById(userId);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+
+    //登入
+    @PostMapping("/users/login")
+    public  ResponseEntity<User> Login(@RequestBody @Valid UserLoginRequest userLoginRequest){
+
+        User user=userService.login(userLoginRequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 }
