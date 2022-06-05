@@ -20,7 +20,7 @@ public class UserController {
     @PostMapping("/users/register")
     public ResponseEntity<User> register(@RequestBody @Valid UserRegisterRequest userRegisterRequest) {
 
-        //新增帳號
+        //新增帳號(因方法中有創建帳號&查詢帳號,所以命名為register,而不是直接為createUser)
         Integer userId = userService.register(userRegisterRequest);
         //取得帳號
         User user = userService.getUserById(userId);
