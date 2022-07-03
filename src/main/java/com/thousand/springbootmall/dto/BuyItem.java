@@ -1,8 +1,8 @@
 package com.thousand.springbootmall.dto;
 
 public class BuyItem {
-     private Integer productId;
-     private Integer quantity;
+    private Integer productId;
+    private Integer quantity;
 
     public Integer getProductId() {
         return productId;

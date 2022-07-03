@@ -5,11 +5,11 @@ import java.util.List;
 
 public class Order {
 
-  private  Integer orderId;
-  private  Integer userId ;
-  private  Integer totalAmount;
-  private  Date createdDate;
-  private  Date lastModifiedDate;
+    private Integer orderId;
+    private Integer userId;
+    private Integer totalAmount;
+    private Date createdDate;
+    private Date lastModifiedDate;
 
     //擴充
     private List<OrderItem> orderItemList;
