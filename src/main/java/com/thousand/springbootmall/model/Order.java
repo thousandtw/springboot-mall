@@ -1,14 +1,18 @@
 package com.thousand.springbootmall.model;
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.List;
 
 public class Order {
 
   private  Integer orderId;
   private  Integer userId ;
   private  Integer totalAmount;
-  private  Date    createdDate;
-  private  Date    lastModifiedDate;
+  private  Date createdDate;
+  private  Date lastModifiedDate;
+
+    //擴充
+    private List<OrderItem> orderItemList;
 
     public Integer getOrderId() {
         return orderId;
@@ -48,5 +52,13 @@ public class Order {
 
     public void setLastModifiedDate(Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public List<OrderItem> getOrderItemList() {
+        return orderItemList;
+    }
+
+    public void setOrderItemList(List<OrderItem> orderItemList) {
+        this.orderItemList = orderItemList;
     }
 }

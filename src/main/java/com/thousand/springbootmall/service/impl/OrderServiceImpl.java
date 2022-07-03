@@ -4,6 +4,7 @@ import com.thousand.springbootmall.dao.OrderDao;
 import com.thousand.springbootmall.dao.ProductDao;
 import com.thousand.springbootmall.dto.BuyItem;
 import com.thousand.springbootmall.dto.CreateOrderRequest;
+import com.thousand.springbootmall.model.Order;
 import com.thousand.springbootmall.model.OrderItem;
 import com.thousand.springbootmall.model.Product;
 import com.thousand.springbootmall.service.OrderService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+//server層處理複雜的業務邏輯
 @Component
 public class OrderServiceImpl implements OrderService {
 
@@ -22,7 +24,19 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ProductDao productDao;
 
-    //server層處理複雜的業務邏輯
+    @Override
+    public Order getOrderById(Integer orderId) {
+        //取得訂單
+        Order order = orderDao.getOrderById(orderId);
+
+        //取得訂單明細
+        List<OrderItem> orderItemList = orderDao.getOrderItemsByOrderId(orderId);
+
+        //合併 Order與 OrderItem
+        order.setOrderItemList(orderItemList);
+        return order;
+    }
+
     @Override
     public Integer createOrder(Integer userId, CreateOrderRequest createOrderRequest) {
         int totalAmount=0;

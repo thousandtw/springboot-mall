@@ -3,6 +3,7 @@ package com.thousand.springbootmall.controller;
 import com.thousand.springbootmall.dto.CreateOrderRequest;
 import com.thousand.springbootmall.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.thousand.springbootmall.model.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,11 @@ public class OrderController {
     public ResponseEntity<?> createOrder(@PathVariable Integer userId ,
                                          @RequestBody @Valid CreateOrderRequest createOrderRequest) {
         //創建訂單
-       Integer orderID = orderService.createOrder(userId,createOrderRequest);
-       return ResponseEntity.status(HttpStatus.CREATED).body(orderID);
+       Integer orderId = orderService.createOrder(userId,createOrderRequest);
+
+       //查詢訂單
+       Order order = orderService.getOrderById(orderId);
+
+       return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 }
